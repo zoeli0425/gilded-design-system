@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gilded Design System</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23CEA052'/%3E%3Ctext x='32' y='46' font-family='Georgia,serif' font-size='42' text-anchor='middle' fill='%23111111'%3EG%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Inter:wght@300;400;500;600&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -294,6 +295,7 @@ nav { padding: 12px 0 24px; flex: 1; }
   letter-spacing: -1.5px;
   line-height: 1;
 }
+.brand-logo-svg { height: 36px; width: auto; }
 .brand-tile-label { font-family: var(--mono-font); font-size: 10px; color: var(--text-sub); letter-spacing: 0.02em; }
 .tile-dark .brand-tile-label { color: rgba(255,255,255,0.45); }
 .tile-gold .brand-tile-label { color: rgba(0,0,0,0.45); }
@@ -354,6 +356,15 @@ nav { padding: 12px 0 24px; flex: 1; }
 .brand-dd-col:first-child li::before { content: '✓'; position: absolute; left: 0; color: #4E6645; }
 .brand-dd-col:last-child  li::before { content: '✕'; position: absolute; left: 0; color: #A04545; }
 
+.shade-row { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+.shade-name { width: 72px; flex-shrink: 0; font-size: 12px; font-weight: 600; color: var(--text); }
+.shade-cells { display: grid; grid-template-columns: repeat(10, 1fr); flex: 1; border-radius: 10px; overflow: hidden; }
+.shade-cell { aspect-ratio: 1 / 1.15; display: flex; flex-direction: column; justify-content: flex-end; padding: 6px 0 6px 7px; cursor: pointer; transition: transform 0.12s; position: relative; }
+.shade-cell:hover { transform: scale(1.06); z-index: 1; border-radius: 6px; }
+.shade-step { font-size: 9.5px; font-weight: 600; opacity: 0.85; }
+.shade-hex { font-family: var(--mono-font); font-size: 8px; opacity: 0.6; letter-spacing: -0.02em; }
+
+
 /* ── Main ── */
 .main {
   margin-left: var(--sidebar-w);
@@ -367,44 +378,87 @@ nav { padding: 12px 0 24px; flex: 1; }
 
 /* ── Home ── */
 .hero {
-  padding: 72px 0 64px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 52px;
+  padding: 88px 0 72px;
+  margin-bottom: 72px;
 }
 
 .hero-eyebrow {
-  font-size: 10.5px;
+  display: inline-block;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--brand);
-  margin-bottom: 18px;
+  background: var(--brand-sub);
+  padding: 5px 14px;
+  border-radius: 100px;
+  margin-bottom: 26px;
 }
 
 .hero-title {
-  font-size: 52px;
-  font-weight: 300;
-  letter-spacing: -0.035em;
-  line-height: 1.08;
+  font-family: 'Crimson Text', serif;
+  font-size: 64px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
   color: var(--text);
-  margin-bottom: 22px;
+  margin-bottom: 20px;
+  max-width: 620px;
 }
 .hero-title em {
-  font-style: normal;
-  font-weight: 600;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--brand);
+}
+
+.hero-tagline {
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
 }
 
 .hero-desc {
   font-size: 15.5px;
   color: var(--text-sub);
-  max-width: 520px;
+  max-width: 540px;
   line-height: 1.75;
 }
 
+.hero-cta-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+}
+.hero-cta {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 26px;
+  border-radius: 100px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.16s;
+  font-family: inherit;
+}
+.hero-cta.primary {
+  background: var(--text);
+  color: var(--bg);
+}
+.hero-cta.primary:hover { background: var(--brand); color: #111111; }
+.hero-cta.secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.hero-cta.secondary:hover { border-color: var(--brand); color: var(--brand); }
+
 .home-meta {
   display: flex;
-  gap: 32px;
-  margin-top: 36px;
+  gap: 44px;
+  margin-top: 52px;
+  padding-top: 36px;
+  border-top: 1px solid var(--border);
 }
 
 .meta-item {
@@ -426,17 +480,18 @@ nav { padding: 12px 0 24px; flex: 1; }
 .home-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  gap: 16px;
 }
 
 .home-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 22px;
+  background: var(--home-card-bg, #FAF5EC);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  padding: 26px 24px;
   cursor: pointer;
   transition: all 0.18s;
 }
+[data-theme="dark"] .home-card { background: var(--home-card-bg-dark, #1C1914); }
 .home-card:hover {
   border-color: var(--brand);
   box-shadow: 0 8px 28px rgba(80,60,30,0.08);
@@ -1637,9 +1692,14 @@ nav { padding: 12px 0 24px; flex: 1; }
   <!-- HOME -->
   <section class="section active" id="home">
     <div class="hero">
-      <div class="hero-eyebrow">Design System</div>
-      <h1 class="hero-title">Build with<br><em>Gilded</em></h1>
-      <p class="hero-desc">The Gilded design system is a collection of design tokens, components, and guidelines that power the Gilded personal finance app — keeping every product experience consistent, accessible, and unmistakably Gilded.</p>
+      <div class="hero-eyebrow">Design System v1.0</div>
+      <h1 class="hero-title">A design system that keeps every experience <em>unmistakably Gilded</em></h1>
+      <p class="hero-tagline">Start with tokens. Change anything. Ship consistently.</p>
+      <p class="hero-desc">Design tokens, components, and guidelines that power the Gilded personal finance app — synced from Figma Variables, documented with live interactive demos.</p>
+      <div class="hero-cta-row">
+        <button class="hero-cta primary" onclick="showSection('colors'); toggleColoursNav(true)">Explore tokens</button>
+        <button class="hero-cta secondary" onclick="showSection('buttons')">Browse components</button>
+      </div>
       <div class="home-meta">
         <div class="meta-item">
           <span class="meta-num">60</span>
@@ -1774,25 +1834,32 @@ nav { padding: 12px 0 24px; flex: 1; }
     <!-- Wordmark -->
     <div class="comp-section">
       <div class="comp-section-head"><span class="comp-section-label">Wordmark</span><div class="comp-section-rule"></div></div>
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><g id="gilded-wordmark"><path d="M83.0035 27.9873L82.8188 27.8031V25.4198C82.3335 26.2113 81.6461 26.8592 80.8274 27.2969C80.0086 27.7346 79.088 27.9463 78.1603 27.9102C74.5781 27.9102 71.4721 25.0504 71.4721 20.0385C71.4721 14.1954 74.8235 11.2133 80.3434 11.2133C81.0946 11.22 81.8425 11.3131 82.5725 11.4905V8.23119C82.5725 6.54018 81.9883 5.94006 80.4816 5.86343V5.07906L86.9546 4.00281L87.1393 4.17243V27.8031L86.9352 27.9877M82.573 24.1899V13.9659C82.3072 13.5633 81.9434 13.2349 81.5158 13.0116C81.0882 12.7883 80.6108 12.6774 80.1286 12.6895C77.7914 12.6895 76.3152 15.1037 76.3152 19.1009C76.3152 23.1601 77.9451 25.6505 80.0515 25.6505C80.5662 25.6665 81.0751 25.5382 81.5207 25.2801C81.9663 25.022 82.3308 24.6443 82.573 24.1899Z" fill="currentColor"/>
+<path d="M11.781 16.8568H22.082V17.6558C20.5598 17.887 20.0522 18.5633 20.0522 20.4696V25.6515C17.7162 27.1562 15.0048 27.9701 12.2304 28.0028C12.1319 28.004 12.0333 28.0042 11.9347 28.0033C11.8902 28.0033 11.8457 28.0032 11.8014 28.0028C4.87643 27.948 0.00378418 23.6225 0.00378418 16.5494C0.00378418 9.41517 4.93905 5.09509 11.9192 5.09509C14.5694 5.08842 17.1813 5.72686 19.5296 6.95529L19.9907 12.814H19.053C17.5768 9.29248 15.3632 6.63241 11.6884 6.63241C7.75237 6.63241 5.26149 10.1225 5.26149 15.9958C5.26149 22.4378 8.33656 26.4355 12.2111 26.4355C13.4181 26.466 14.5907 26.0312 15.4859 25.221V20.5311C15.4859 18.5939 14.5943 17.9021 11.7806 17.6558L11.781 16.8568Z" fill="currentColor"/>
+<path d="M26.4331 9.78363C26.7828 9.80029 27.1323 9.74444 27.4594 9.6196C27.7866 9.49476 28.0844 9.30362 28.3341 9.05819C28.5839 8.81276 28.7802 8.51833 28.9108 8.1934C29.0413 7.86848 29.1032 7.52007 29.0927 7.17006C29.0774 6.47477 28.7904 5.81312 28.2933 5.32681C27.7961 4.84049 27.1283 4.56818 26.4328 4.56818C25.7374 4.56818 25.0696 4.84049 24.5724 5.32681C24.0753 5.81312 23.7883 6.47477 23.773 7.17006C23.7611 7.52045 23.8222 7.86948 23.9523 8.19503C24.0824 8.52059 24.2787 8.81557 24.5288 9.06128C24.7789 9.30698 25.0773 9.49807 25.4051 9.62241C25.7329 9.74676 26.0829 9.80166 26.4331 9.78363Z" fill="currentColor"/>
+<path d="M37.1801 4.00281L30.7071 5.07906V5.863C32.2138 5.94006 32.798 6.53975 32.798 8.23076V23.6052C32.798 23.609 32.798 23.6128 32.798 23.6166C32.798 24.7243 32.798 25.9492 31.6697 26.54C31.3207 26.7201 30.9245 26.7878 30.5355 26.7339C30.1465 26.6799 29.7837 26.5069 29.4969 26.2386C29.0838 25.7684 28.8522 25.1661 28.8439 24.5403C28.7895 23.753 28.8041 22.9515 28.8186 22.1541C28.8252 21.7894 28.8318 21.4256 28.8318 21.0644V11.3351L28.6475 11.1504L22.19 12.2568V13.0261C23.6968 13.1027 24.265 13.702 24.265 15.3939V24.0039C24.265 24.9519 24.2639 25.3182 24.2627 25.6865C24.2615 26.0591 24.2603 26.4337 24.2603 27.4143L24.4682 27.6175H37.1172L37.3643 27.3988V4.18749L37.1801 4.00281Z" fill="currentColor"/>
+<path d="M70.6417 18.5774H60.2946C60.5098 22.7446 62.5702 24.5583 65.0916 24.5583C67.4439 24.5583 68.7664 23.5131 69.658 21.9292L70.4578 22.2061C70.0428 24.5889 68.3669 27.9868 63.8772 27.9868C59.2497 27.9868 56.1743 24.9432 56.1743 19.577C56.1743 14.2108 59.2493 11.1516 63.8001 11.1516C68.2743 11.1516 70.6417 14.0885 70.6417 17.9936V18.5774ZM66.4598 17.0555C66.4443 14.3343 65.5372 12.6735 63.6615 12.6735C61.8319 12.6735 60.4943 14.0115 60.2941 17.0555H66.4598Z" fill="currentColor"/>
+<path d="M50.4593 27.9873L50.2746 27.8031V25.4198C49.7893 26.2113 49.102 26.8592 48.2832 27.2969C47.4645 27.7346 46.5439 27.9463 45.6162 27.9102C42.034 27.9102 38.9279 25.0504 38.9279 20.0385C38.9279 14.1954 42.2794 11.2133 47.7993 11.2133C48.5505 11.22 49.2984 11.3131 50.0284 11.4905V8.23119C50.0284 6.54018 49.4442 5.94006 47.9375 5.86343V5.07906L54.4092 4.00281L54.5939 4.17243V27.8031L54.3898 27.9877M50.028 24.1903V13.9659C49.7622 13.5633 49.3984 13.2349 48.9708 13.0116C48.5432 12.7883 48.0658 12.6774 47.5836 12.6895C45.2464 12.6895 43.7702 15.1037 43.7702 19.1009C43.7702 23.1601 45.4001 25.6505 47.5065 25.6505C48.0212 25.6665 48.5301 25.5382 48.9757 25.2801C49.4213 25.022 49.7858 24.6447 50.028 24.1903Z" fill="currentColor"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M11.9192 5.09509C4.93905 5.09509 0.00378418 9.41517 0.00378418 16.5494C0.00378418 23.6225 4.87643 27.948 11.8014 28.0028H12.2304C15.0048 27.9701 17.7162 27.1562 20.0522 25.6515V20.4696C20.0522 18.5633 20.5598 17.887 22.082 17.6558V16.8568H11.781L11.7806 17.6558C14.5943 17.9021 15.4859 18.5939 15.4859 20.5311V25.221C14.5907 26.0312 13.4181 26.466 12.2111 26.4355C8.33656 26.4355 5.26149 22.4378 5.26149 15.9958C5.26149 10.1225 7.75237 6.63241 11.6884 6.63241C15.3632 6.63241 17.5768 9.29248 19.053 12.814H19.9907L19.5296 6.95529C17.1813 5.72686 14.5694 5.08842 11.9192 5.09509ZM37.1801 4.00281L37.3643 4.18749V27.3988L37.1172 27.6175H24.4682L24.2603 27.4143C24.2603 26.4337 24.2615 26.0591 24.2627 25.6865C24.2639 25.3182 24.265 24.9519 24.265 24.0039V15.3939C24.265 13.702 23.6968 13.1027 22.19 13.0261V12.2568L28.6475 11.1504L28.8318 11.3351V21.0644C28.8318 21.4256 28.8252 21.7894 28.8186 22.1541C28.8041 22.9515 28.7895 23.753 28.8439 24.5403C28.8522 25.1661 29.0838 25.7684 29.4969 26.2386C29.7837 26.5069 30.1465 26.6799 30.5355 26.7339C30.9245 26.7878 31.3207 26.7201 31.6697 26.54C32.798 25.9492 32.798 24.7243 32.798 23.6166V23.6052V8.23076C32.798 6.53975 32.2138 5.94006 30.7071 5.863V5.07906L37.1801 4.00281ZM26.4331 9.78363C26.7828 9.80029 27.1323 9.74444 27.4594 9.6196C27.7866 9.49476 28.0844 9.30362 28.3341 9.05819C28.5839 8.81276 28.7802 8.51833 28.9108 8.1934C29.0413 7.86848 29.1032 7.52007 29.0927 7.17006C29.0774 6.47477 28.7904 5.81312 28.2933 5.32681C27.7961 4.84049 27.1283 4.56818 26.4328 4.56818C25.7374 4.56818 25.0696 4.84049 24.5724 5.32681C24.0753 5.81312 23.7883 6.47477 23.773 7.17006C23.7611 7.52045 23.8222 7.86948 23.9523 8.19503C24.0824 8.52059 24.2787 8.81557 24.5288 9.06128C24.7789 9.30698 25.0773 9.49807 25.4051 9.62241C25.7329 9.74676 26.0829 9.80166 26.4331 9.78363ZM70.6417 18.5774H60.2946C60.5098 22.7446 62.5702 24.5583 65.0916 24.5583C67.4439 24.5583 68.7664 23.5131 69.658 21.9292L70.4578 22.2061C70.0428 24.5889 68.3669 27.9868 63.8772 27.9868C59.2497 27.9868 56.1743 24.9432 56.1743 19.577C56.1743 14.2108 59.2493 11.1516 63.8001 11.1516C68.2743 11.1516 70.6417 14.0885 70.6417 17.9936V18.5774ZM66.4598 17.0555C66.4443 14.3343 65.5372 12.6735 63.6615 12.6735C61.8319 12.6735 60.4943 14.0115 60.2941 17.0555H66.4598Z" fill="currentColor"/></g></defs></svg>
       <div class="brand-logo-row">
         <div class="brand-logo-tile tile-light">
-          <span class="brand-wordmark" style="color:#111111;">Gilded</span>
-          <span class="brand-tile-label">Default — light surfaces</span>
+          <svg class="brand-logo-svg" viewBox="0 0 88 32" style="color:#CEA868;" role="img" aria-label="Gilded"><use href="#gilded-wordmark"/></svg>
+          <span class="brand-tile-label">Default — gold, light surfaces</span>
         </div>
         <div class="brand-logo-tile tile-dark">
-          <span class="brand-wordmark" style="color:#F5EAD7;">Gilded</span>
-          <span class="brand-tile-label">Dark — dark surfaces</span>
+          <svg class="brand-logo-svg" viewBox="0 0 88 32" style="color:#FFFFFF;" role="img" aria-label="Gilded"><use href="#gilded-wordmark"/></svg>
+          <span class="brand-tile-label">Inverse — dark surfaces</span>
         </div>
         <div class="brand-logo-tile tile-gold">
-          <span class="brand-wordmark" style="color:#111111;">Gilded</span>
-          <span class="brand-tile-label">On brand gold — sparingly</span>
+          <svg class="brand-logo-svg" viewBox="0 0 88 32" style="color:#111111;" role="img" aria-label="Gilded"><use href="#gilded-wordmark"/></svg>
+          <span class="brand-tile-label">Dark — on brand gold, sparingly</span>
         </div>
       </div>
       <div class="spec-grid">
         <div class="spec-card"><div class="spec-label">Typeface</div><div class="spec-value">Crimson Text</div><div class="spec-sub">Regular · tight tracking</div></div>
         <div class="spec-card"><div class="spec-label">Clear space</div><div class="spec-value">Height of “G”</div><div class="spec-sub">On all sides, minimum</div></div>
         <div class="spec-card"><div class="spec-label">Minimum size</div><div class="spec-value">24px / 8mm</div><div class="spec-sub">Screen / print</div></div>
-        <div class="spec-card"><div class="spec-label">Variants</div><div class="spec-value">Default · Dark</div><div class="spec-sub">Matches Figma Logo variable</div></div>
+        <div class="spec-card"><div class="spec-label">Variants</div><div class="spec-value">Default · Dark · Inverse</div><div class="spec-sub">Matches Figma logo component</div></div>
       </div>
     </div>
 
@@ -1818,6 +1885,18 @@ nav { padding: 12px 0 24px; flex: 1; }
         </div>
       </div>
       <p class="brand-note">Ratio guidance: roughly 60% Paper, 25% Ink, 10% Gold, 5% Olive/Lavender. Gold loses its value when it is everywhere — use it to reward attention, not to demand it.</p>
+    </div>
+
+
+    <!-- Extended Shades -->
+    <div class="comp-section">
+      <div class="comp-section-head"><span class="comp-section-label">Extended Shades</span><div class="comp-section-rule"></div></div>
+      <p class="brand-note">Tonal scales derived from the core palette — for illustrations, charts, hover states, and backgrounds where the core five need range. 500 is the core colour. Click any swatch to copy.</p>
+<div class="shade-row"><div class="shade-name">Gold</div><div class="shade-cells"><div class="shade-cell" style="background:#FCF8F3;color:#111111;" onclick="copy('#FCF8F3', this)"><span class="shade-step">50</span><span class="shade-hex">#FCF8F3</span></div><div class="shade-cell" style="background:#F8F1E5;color:#111111;" onclick="copy('#F8F1E5', this)"><span class="shade-step">100</span><span class="shade-hex">#F8F1E5</span></div><div class="shade-cell" style="background:#EFE1C8;color:#111111;" onclick="copy('#EFE1C8', this)"><span class="shade-step">200</span><span class="shade-hex">#EFE1C8</span></div><div class="shade-cell" style="background:#E6CEA5;color:#111111;" onclick="copy('#E6CEA5', this)"><span class="shade-step">300</span><span class="shade-hex">#E6CEA5</span></div><div class="shade-cell" style="background:#DAB87D;color:#111111;" onclick="copy('#DAB87D', this)"><span class="shade-step">400</span><span class="shade-hex">#DAB87D</span></div><div class="shade-cell" style="background:#CEA052;color:#111111;" onclick="copy('#CEA052', this)"><span class="shade-step">500</span><span class="shade-hex">#CEA052</span></div><div class="shade-cell" style="background:#AF8845;color:#FFFFFF;" onclick="copy('#AF8845', this)"><span class="shade-step">600</span><span class="shade-hex">#AF8845</span></div><div class="shade-cell" style="background:#8D6D36;color:#FFFFFF;" onclick="copy('#8D6D36', this)"><span class="shade-step">700</span><span class="shade-hex">#8D6D36</span></div><div class="shade-cell" style="background:#6B5327;color:#FFFFFF;" onclick="copy('#6B5327', this)"><span class="shade-step">800</span><span class="shade-hex">#6B5327</span></div><div class="shade-cell" style="background:#4D3B1A;color:#FFFFFF;" onclick="copy('#4D3B1A', this)"><span class="shade-step">900</span><span class="shade-hex">#4D3B1A</span></div></div></div>
+      <div class="shade-row"><div class="shade-name">Olive</div><div class="shade-cells"><div class="shade-cell" style="background:#F3F4F2;color:#111111;" onclick="copy('#F3F4F2', this)"><span class="shade-step">50</span><span class="shade-hex">#F3F4F2</span></div><div class="shade-cell" style="background:#E4E8E3;color:#111111;" onclick="copy('#E4E8E3', this)"><span class="shade-step">100</span><span class="shade-hex">#E4E8E3</span></div><div class="shade-cell" style="background:#C6CEC3;color:#111111;" onclick="copy('#C6CEC3', this)"><span class="shade-step">200</span><span class="shade-hex">#C6CEC3</span></div><div class="shade-cell" style="background:#A3AF9E;color:#111111;" onclick="copy('#A3AF9E', this)"><span class="shade-step">300</span><span class="shade-hex">#A3AF9E</span></div><div class="shade-cell" style="background:#7A8C74;color:#FFFFFF;" onclick="copy('#7A8C74', this)"><span class="shade-step">400</span><span class="shade-hex">#7A8C74</span></div><div class="shade-cell" style="background:#4E6645;color:#FFFFFF;" onclick="copy('#4E6645', this)"><span class="shade-step">500</span><span class="shade-hex">#4E6645</span></div><div class="shade-cell" style="background:#42573B;color:#FFFFFF;" onclick="copy('#42573B', this)"><span class="shade-step">600</span><span class="shade-hex">#42573B</span></div><div class="shade-cell" style="background:#36462F;color:#FFFFFF;" onclick="copy('#36462F', this)"><span class="shade-step">700</span><span class="shade-hex">#36462F</span></div><div class="shade-cell" style="background:#293524;color:#FFFFFF;" onclick="copy('#293524', this)"><span class="shade-step">800</span><span class="shade-hex">#293524</span></div><div class="shade-cell" style="background:#1D261A;color:#FFFFFF;" onclick="copy('#1D261A', this)"><span class="shade-step">900</span><span class="shade-hex">#1D261A</span></div></div></div>
+      <div class="shade-row"><div class="shade-name">Lavender</div><div class="shade-cells"><div class="shade-cell" style="background:#F7F7FB;color:#111111;" onclick="copy('#F7F7FB', this)"><span class="shade-step">50</span><span class="shade-hex">#F7F7FB</span></div><div class="shade-cell" style="background:#EEEDF7;color:#111111;" onclick="copy('#EEEDF7', this)"><span class="shade-step">100</span><span class="shade-hex">#EEEDF7</span></div><div class="shade-cell" style="background:#DCDAEF;color:#111111;" onclick="copy('#DCDAEF', this)"><span class="shade-step">200</span><span class="shade-hex">#DCDAEF</span></div><div class="shade-cell" style="background:#C6C2E4;color:#111111;" onclick="copy('#C6C2E4', this)"><span class="shade-step">300</span><span class="shade-hex">#C6C2E4</span></div><div class="shade-cell" style="background:#ACA7D9;color:#111111;" onclick="copy('#ACA7D9', this)"><span class="shade-step">400</span><span class="shade-hex">#ACA7D9</span></div><div class="shade-cell" style="background:#918ACC;color:#FFFFFF;" onclick="copy('#918ACC', this)"><span class="shade-step">500</span><span class="shade-hex">#918ACC</span></div><div class="shade-cell" style="background:#7A74AF;color:#FFFFFF;" onclick="copy('#7A74AF', this)"><span class="shade-step">600</span><span class="shade-hex">#7A74AF</span></div><div class="shade-cell" style="background:#625C8F;color:#FFFFFF;" onclick="copy('#625C8F', this)"><span class="shade-step">700</span><span class="shade-hex">#625C8F</span></div><div class="shade-cell" style="background:#48446F;color:#FFFFFF;" onclick="copy('#48446F', this)"><span class="shade-step">800</span><span class="shade-hex">#48446F</span></div><div class="shade-cell" style="background:#322F52;color:#FFFFFF;" onclick="copy('#322F52', this)"><span class="shade-step">900</span><span class="shade-hex">#322F52</span></div></div></div>
+      <div class="shade-row"><div class="shade-name">Neutral</div><div class="shade-cells"><div class="shade-cell" style="background:#F7F7F7;color:#111111;" onclick="copy('#F7F7F7', this)"><span class="shade-step">50</span><span class="shade-hex">#F7F7F7</span></div><div class="shade-cell" style="background:#E9E9E9;color:#111111;" onclick="copy('#E9E9E9', this)"><span class="shade-step">100</span><span class="shade-hex">#E9E9E9</span></div><div class="shade-cell" style="background:#D2D2D2;color:#111111;" onclick="copy('#D2D2D2', this)"><span class="shade-step">200</span><span class="shade-hex">#D2D2D2</span></div><div class="shade-cell" style="background:#B2B2B2;color:#111111;" onclick="copy('#B2B2B2', this)"><span class="shade-step">300</span><span class="shade-hex">#B2B2B2</span></div><div class="shade-cell" style="background:#909090;color:#FFFFFF;" onclick="copy('#909090', this)"><span class="shade-step">400</span><span class="shade-hex">#909090</span></div><div class="shade-cell" style="background:#727272;color:#FFFFFF;" onclick="copy('#727272', this)"><span class="shade-step">500</span><span class="shade-hex">#727272</span></div><div class="shade-cell" style="background:#565656;color:#FFFFFF;" onclick="copy('#565656', this)"><span class="shade-step">600</span><span class="shade-hex">#565656</span></div><div class="shade-cell" style="background:#3D3D3D;color:#FFFFFF;" onclick="copy('#3D3D3D', this)"><span class="shade-step">700</span><span class="shade-hex">#3D3D3D</span></div><div class="shade-cell" style="background:#282828;color:#FFFFFF;" onclick="copy('#282828', this)"><span class="shade-step">800</span><span class="shade-hex">#282828</span></div><div class="shade-cell" style="background:#111111;color:#FFFFFF;" onclick="copy('#111111', this)"><span class="shade-step">900</span><span class="shade-hex">#111111</span></div></div></div>
+      <p class="brand-note">Guidance: 50–200 for backgrounds and fills, 300–400 for borders and secondary elements, 500–700 for primary use and text on light, 800–900 for text and dark surfaces.</p>
     </div>
 
     <!-- Typography -->
