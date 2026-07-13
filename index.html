@@ -1552,9 +1552,113 @@ nav { padding: 12px 0 24px; flex: 1; }
   white-space: nowrap;
   pointer-events: none;
 }
+/* ── Mobile responsive ── */
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 52px;
+  z-index: 90;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+}
+.hamburger {
+  width: 38px; height: 38px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+}
+.hamburger:active { background: var(--bg); }
+.mobile-header .logo-name { font-size: 15px; }
+.sidebar-scrim {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 95;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+@media (max-width: 820px) {
+  .mobile-header { display: flex; }
+
+  .sidebar {
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.24s ease, background 0.2s, border-color 0.2s;
+    box-shadow: none;
+  }
+  .sidebar.open { transform: translateX(0); box-shadow: 0 0 48px rgba(0,0,0,0.25); }
+  body.drawer-open .sidebar-scrim { display: block; opacity: 1; }
+  body.drawer-open { overflow: hidden; }
+
+  .main {
+    margin-left: 0;
+    max-width: 100%;
+    padding: 76px 18px 48px;
+  }
+
+  .hero { padding: 28px 0 40px; margin-bottom: 44px; }
+  .hero-title { font-size: 38px; }
+  .hero-tagline { font-size: 16px; }
+  .hero-cta-row { flex-wrap: wrap; }
+  .home-meta { gap: 26px; flex-wrap: wrap; }
+
+  .home-grid,
+  .variant-grid,
+  .spec-grid,
+  .brand-logo-row { grid-template-columns: 1fr 1fr; }
+  .brand-palette { grid-template-columns: repeat(3, 1fr); }
+  .brand-dd { grid-template-columns: 1fr; }
+
+  .shade-row { flex-direction: column; align-items: stretch; gap: 6px; }
+  .shade-name { width: auto; }
+  .shade-hex { display: none; }
+
+  .states-grid, .field-states-grid { overflow-x: auto; display: block; }
+  .states-grid > *, .field-states-grid > * { min-width: 560px; }
+  .token-table { display: block; overflow-x: auto; }
+
+  .chart-svg-wrap { overflow-x: auto; }
+  .chart-svg-wrap svg { min-width: 560px; }
+
+  .page-title { font-size: 26px; }
+  .toggle-row { flex-wrap: wrap; gap: 8px; }
+}
+
+@media (max-width: 480px) {
+  .home-grid,
+  .variant-grid,
+  .spec-grid,
+  .brand-logo-row { grid-template-columns: 1fr; }
+  .brand-palette { grid-template-columns: 1fr 1fr; }
+  .hero-title { font-size: 31px; }
+  .color-grid { grid-template-columns: repeat(auto-fill, minmax(136px, 1fr)); }
+}
 </style>
 </head>
 <body>
+
+<!-- ── MOBILE HEADER ── -->
+<div class="mobile-header">
+  <button class="hamburger" onclick="toggleDrawer()" aria-label="Open navigation">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+      <path d="M3 5.5h14M3 10h14M3 14.5h14"/>
+    </svg>
+  </button>
+  <span class="logo-name">Gilded</span>
+  <span class="logo-tag">DS</span>
+</div>
+<div class="sidebar-scrim" onclick="toggleDrawer(false)"></div>
 
 <!-- ── SIDEBAR ── -->
 <aside class="sidebar">
@@ -3189,6 +3293,21 @@ function setGraphPalette(name, btn) {
   btn.parentElement.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
+
+function toggleDrawer(force) {
+  const sidebar = document.querySelector('.sidebar');
+  const open = typeof force === 'boolean' ? force : !sidebar.classList.contains('open');
+  sidebar.classList.toggle('open', open);
+  document.body.classList.toggle('drawer-open', open);
+}
+
+// Close the drawer after tapping a nav destination on mobile
+document.addEventListener('click', (e) => {
+  if (window.innerWidth > 820) return;
+  const navHit = e.target.closest('.nav-item:not(.soon), .nav-sub');
+  const chevronHit = e.target.closest('.nav-chevron');
+  if (navHit && !chevronHit && document.body.classList.contains('drawer-open')) toggleDrawer(false);
+});
 
 function toggleColoursNav(forceOpen) {
   const group = document.getElementById('colours-subs');
